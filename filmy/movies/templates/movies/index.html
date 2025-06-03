@@ -1,0 +1,49 @@
+{% extends "movies/layout.html" %}
+
+{% block title %}Databáze filmů{% endblock %}
+
+{% block content %}
+<div style="text-align: right; font-size: 0.9em; margin-bottom: 10px;">
+    {% if user.is_authenticated %}
+  <div style="text-align: right; font-size: 0.9em; margin-bottom: 10px;">
+    Přihlášen jako:  <strong>{{ user.username }}</strong> |
+    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; color:#00f; cursor:pointer; padding:0;">Odhlásit se</button>
+    </form>
+  </div>
+  {% else %}
+  <div style="text-align: right; font-size: 0.9em; margin-bottom: 10px;">
+    Nejste přihlášen(a). <a href="{% url 'login' %}">Přihlásit se</a> nebo <a href="{% url 'register' %}">Registrovat</a>
+  </div>
+{% endif %}
+
+  </div>
+</div>
+<h1>🎬 Databáze filmů</h1>
+<input type="text" id="searchInput" placeholder="Hledat filmy..." class="search-box">
+
+<table id="moviesTable" class="movie-table">
+    <thead>
+        <tr>
+            <th>Název</th>
+            <th>Rok</th>
+            <th>Režisér</th>
+            <th>Žánr</th>
+            <th>Hodnocení</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for film in movies %}
+        <tr>
+            <td>{{ film.nazev }}</td>
+            <td>{{ film.rok }}</td>
+            <td>{{ film.reziser }}</td>
+            <td>{{ film.zanr }}</td>
+            <td>{{ film.hodnoceni }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
